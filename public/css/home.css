@@ -1,0 +1,73 @@
+    .hero-section {
+        background: linear-gradient(135deg, rgba(0, 102, 204, 0.9), rgba(0, 51, 102, 0.9)), 
+                    url('https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=1920') center/cover;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        animation: fadeInUp 1s;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 30px;
+        animation: fadeInUp 1.2s;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .feature-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,102,204,0.2);
+    }
+    
+    .feature-icon {
+        font-size: 3rem;
+        color: #0066CC;
+        margin-bottom: 20px;
+    }
+    
+    .stats-section {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 60px 0;
+        margin: 60px 0;
+    }
+    
+    .stat-item {
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #0066CC;
+    }
+    
+    .stat-label {
+        font-size: 1.1rem;
+        color: #666;
+        margin-top: 10px;
+    }

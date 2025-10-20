@@ -1,0 +1,58 @@
+    .page-header {
+        background: linear-gradient(135deg, #0066CC, #003366);
+        color: white;
+        padding: 80px 0 60px;
+        margin-bottom: 50px;
+    }
+    
+    .service-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+        height: 100%;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,102,204,0.3);
+    }
+    
+    .service-icon {
+        background: linear-gradient(135deg, #0066CC, #003366);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .service-icon i {
+        font-size: 3rem;
+    }
+    
+    .service-body {
+        padding: 25px;
+    }
+    
+    .service-title {
+        color: #003366;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    
+    .service-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .service-list li {
+        padding: 8px 0;
+        color: #666;
+    }
+    
+    .service-list li:before {
+        content: "✓";
+        color: #0066CC;
+        font-weight: bold;
+        margin-right: 10px;
+    }
