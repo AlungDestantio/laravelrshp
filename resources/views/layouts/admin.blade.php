@@ -22,7 +22,7 @@
 
             <div class="ms-auto d-flex align-items-center">
                 <!-- Tombol Dashboard -->
-                <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="bi bi-house-fill"></i> Dashboard Admin
                 </a>
 

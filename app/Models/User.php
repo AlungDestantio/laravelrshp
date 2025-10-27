@@ -32,4 +32,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_user', 'iduser', 'idrole')
                     ->withPivot('idrole_user', 'status');
     }
+
+    public function pemilik()
+    {
+        // Relasi one-to-one antara user dan pemilik
+        return $this->hasOne(Pemilik::class, 'iduser', 'iduser');
+    }
+
+    public function roleUsers()
+    {
+        // Relasi one-to-many antara user dan role_user
+        return $this->hasMany(RoleUser::class, 'iduser', 'iduser');
+    }
 }
