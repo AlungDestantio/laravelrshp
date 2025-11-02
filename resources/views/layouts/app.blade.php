@@ -44,11 +44,41 @@
                             <i class="bi bi-telephone-fill"></i> Kontak
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}">
-                            <i class="bi bi-box-arrow-in-right"></i> Login
-                        </a>
-                    </li>
+
+                    @if(Auth::check())
+                        {{-- Tombol Dashboard --}}
+                        @php
+                            $role = Auth::user()->roleUsers->first()->idrole ?? 1;
+                            $dashboardRoute = match($role) {
+                                1 => route('admin.dashboard'),
+                                2 => route('dokter.dashboard'),
+                                3 => route('perawat.dashboard'),
+                                4 => route('resepsionis.dashboard'),
+                                default => route('admin.dashboard'),
+                            };
+                        @endphp
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ $dashboardRoute }}">
+                                <i class="bi bi-house"></i> Dashboard
+                            </a>
+                        </li>
+
+                        {{-- Tombol Logout --}}
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-link nav-link" style="display:inline; padding:0; margin:0;">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

@@ -22,13 +22,8 @@ class Role extends Model
                     ->withPivot('idrole_user', 'status');
     }
 
-    public function role()
+    public function roleUsers()
     {
-        return $this->belongsTo(Role::class, 'idrole', 'idrole');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'iduser', 'iduser');
+        return $this->hasMany(RoleUser::class, 'idrole', 'idrole');
     }
 }

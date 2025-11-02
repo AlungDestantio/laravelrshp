@@ -1,9 +1,10 @@
-@extends('layouts.admin')
+@extends('layouts.perawat')
 
-@section('title', 'Dashboard Admin')
+@section('title', 'Dashboard Perawat')
 
 @section('styles')
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <style>
     .dashboard-hero {
         background: linear-gradient(135deg, #0066CC 0%, #003366 100%);
@@ -164,6 +165,7 @@
             min-height: auto;
         }
     }
+    
 </style>
 @endsection
 
@@ -172,7 +174,7 @@
     <!-- Dashboard Hero -->
     <div class="dashboard-hero">
         <div class="container text-center">
-            <h1>Dashboard Admin</h1>
+            <h1>Dashboard Perawat</h1>
             <p>Selamat datang, <strong>{{ Auth::user()->nama }}</strong></p>
             <p class="mb-0" style="font-size: 1rem; opacity: 0.9;">Kelola seluruh data sistem rumah sakit hewan dengan mudah dan efisien</p>
         </div>
@@ -180,19 +182,12 @@
 
     <!-- Menu Section -->
     <div class="container">
-        <h2 class="menu-section-title">Menu Administrasi</h2>
+        <h2 class="menu-section-title">Menu Perawat</h2>
         
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-5 justify-content-center">
             @php
                 $menus = [
-                    ['icon'=>'bi-heart-fill','title'=>'Jenis Hewan','route'=>'admin.jenis-hewan.index', 'desc'=>'Kelola data jenis hewan seperti anjing, kucing, burung, dll'],
-                    ['icon'=>'bi-diagram-3-fill','title'=>'Ras Hewan','route'=>'admin.ras-hewan.index', 'desc'=>'Kelola data ras untuk setiap jenis hewan'],
-                    ['icon'=>'bi-tags-fill','title'=>'Kategori','route'=>'admin.kategori.index', 'desc'=>'Kelola kategori dan klasifikasi sistem'],
-                    ['icon'=>'bi-file-medical-fill','title'=>'Kategori Klinis','route'=>'admin.kategori-klinis.index', 'desc'=>'Kelola kategori untuk keperluan klinis'],
-                    ['icon'=>'bi-clipboard2-pulse-fill','title'=>'Kode Tindakan','route'=>'admin.kode-tindakan.index', 'desc'=>'Kelola kode tindakan terapi dan prosedur medis'],
-                    ['icon'=>'bi-heart-pulse-fill','title'=>'Data Pet','route'=>'admin.pet.index', 'desc'=>'Kelola data hewan peliharaan pasien'],
-                    ['icon'=>'bi-people-fill','title'=>'Role & Hak Akses','route'=>'admin.role.index', 'desc'=>'Kelola role dan permission pengguna'],
-                    ['icon'=>'bi-people-fill','title'=>'User & Pengguna','route'=>'admin.user.index', 'desc'=>'Kelola akun pengguna dan assignment role'],
+                    ['icon'=>'bi-clipboard2-pulse-fill','title'=>'Rekam Medis','route'=>'perawat.rekam-medis.index', 'desc'=>'Daftarkan data pemilik hewan baru agar dapat menggunakan layanan.'],
                 ];
             @endphp
 

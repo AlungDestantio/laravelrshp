@@ -18,7 +18,6 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-        'role',
     ];
 
     protected $hidden = [
@@ -28,20 +27,17 @@ class User extends Authenticatable
 
     public function roles()
     {
-        // Relasi many-to-many antara user dan role
         return $this->belongsToMany(Role::class, 'role_user', 'iduser', 'idrole')
                     ->withPivot('idrole_user', 'status');
     }
 
     public function pemilik()
     {
-        // Relasi one-to-one antara user dan pemilik
         return $this->hasOne(Pemilik::class, 'iduser', 'iduser');
     }
 
     public function roleUsers()
     {
-        // Relasi one-to-many antara user dan role_user
         return $this->hasMany(RoleUser::class, 'iduser', 'iduser');
     }
 }

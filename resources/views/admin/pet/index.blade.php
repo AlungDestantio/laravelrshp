@@ -35,12 +35,13 @@
                 <thead>
                     <tr>
                         <th style="width:5%">ID</th>
-                        <th style="width:20%">Nama</th>
+                        <th style="width:15%">Nama</th>
+                        <th style="width:15%">Pemilik</th>
                         <th style="width:15%">Tanggal Lahir</th>
                         <th style="width:15%">Warna/Tanda</th>
                         <th style="width:5%">JK</th>
-                        <th style="width:20%">Ras</th>
-                        <th style="width:20%">Aksi</th>
+                        <th style="width:15%">Ras</th>
+                        <th style="width:15%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,7 @@
                     <tr>
                         <td>{{ $d->idpet }}</td>
                         <td>{{ $d->nama }}</td>
+                        <td>{{ $d->pemilik->user->nama ?? '-' }}</td>
                         <td>{{ $d->tanggal_lahir }}</td>
                         <td>{{ $d->warna_tanda }}</td>
                         <td>{{ $d->jenis_kelamin }}</td>
@@ -86,6 +88,15 @@
                 <div class="mb-3">
                     <label>Nama</label>
                     <input type="text" name="nama" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Pemilik</label>
+                    <select name="idpemilik" class="form-select" required>
+                        <option value="">Pilih Pemilik</option>
+                        @foreach($pemilik as $p)
+                            <option value="{{ $p->idpemilik }}">{{ $p->user->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label>Tanggal Lahir</label>

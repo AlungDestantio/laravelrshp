@@ -1,8 +1,10 @@
-@extends('layouts.admin')
+@extends('layouts.resepsionis')
 
 @section('title', 'Dashboard Resepsionis')
 
 @section('styles')
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <style>
     .dashboard-hero {
         background: linear-gradient(135deg, #0066CC 0%, #003366 100%);
@@ -163,6 +165,7 @@
             min-height: auto;
         }
     }
+    
 </style>
 @endsection
 
@@ -179,12 +182,19 @@
 
     <!-- Menu Section -->
     <div class="container">
-        <h2 class="menu-section-title">Menu Resepsionis</h2>
+        <h2 class="menu-section-title">Menu Respsionis</h2>
         
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-5 justify-content-center">
+            @php
+                $menus = [
+                    ['icon'=>'bi-person-plus-fill','title'=>'Registrasi Pemilik','route'=>'resepsionis.registrasi-pemilik.index', 'desc'=>'Daftarkan data pemilik hewan baru agar dapat menggunakan layanan.'],
+                    ['icon'=>'bi-file-earmark-plus-fill','title'=>'Registrasi Pet','route'=>'resepsionis.registrasi-pet.index', 'desc'=>'Tambahkan data hewan peliharaan baru untuk mendapatkan pelayanan.'],
+                    ['icon'=>'bi-calendar-plus-fill','title'=>'Temu Dokter','route'=>'resepsionis.temu-dokter.index', 'desc'=>'Atur dan daftarkan antrian pasien untuk konsultasi dokter hewan.'],
+                ];
+            @endphp
 
             @foreach($menus as $m)
-            <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}">
                 <div class="card admin-menu-card">
                     <div class="card-body text-center">
                         <div class="icon-wrapper">
@@ -202,4 +212,16 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<!-- 💫 AOS Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 900,
+        once: true,
+        offset: 100
+    });
+</script>
 @endsection

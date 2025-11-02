@@ -15,15 +15,19 @@
     <!-- === NAVBAR ADMIN === -->
     <nav class="navbar navbar-admin navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+            <a class="navbar-brand" href="{{ route('perawat.dashboard') }}">
                 <i class="bi bi-heart-pulse-fill"></i>
                 <span>RSH Pendidikan UNAIR</span>
             </a>
 
             <div class="ms-auto d-flex align-items-center">
                 <!-- Tombol Dashboard -->
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <i class="bi bi-house-fill"></i> Dashboard Admin
+                <a href="{{ route('perawat.dashboard') }}" class="nav-link {{ request()->routeIs('perawat.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-house-fill"></i> Dashboard Perawat
+                </a>
+
+                <a href="{{ route('perawat.rekam-medis.index') }}" class="nav-link {{ request()->routeIs('perawat.rekam-medis.index') ? 'active' : '' }}">
+                    <i class="bi bi-clipboard2-pulse-fill"></i> Rekam Medis
                 </a>
 
                 <!-- Tombol Logout -->

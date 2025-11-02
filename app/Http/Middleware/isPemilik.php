@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class isResepsionis
+class isPemilik
 {
     /**
      * Handle an incoming request.
@@ -26,7 +26,7 @@ class isResepsionis
         $userRole = session('user_role');
 
         // Jika user terautentikasi tetapi bukan admin, return 403
-        if ($userRole === 4) {
+        if ($userRole === 5) {
 
             return $next($request);
         } else {

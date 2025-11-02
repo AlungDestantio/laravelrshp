@@ -22,8 +22,12 @@
 
             <div class="ms-auto d-flex align-items-center">
                 <!-- Tombol Dashboard -->
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <i class="bi bi-house-fill"></i> Dashboard Admin
+                <a href="{{ route('dokter.dashboard') }}" class="nav-link {{ request()->routeIs('dokter.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-house-fill"></i> Dashboard Dokter
+                </a>
+
+                <a href="{{ route('dokter.rekam-medis.index') }}" class="nav-link {{ request()->routeIs('dokter.rekam-medis.index') ? 'active' : '' }}">
+                    <i class="bi bi-clipboard2-pulse-fill"></i> Rekam Medis
                 </a>
 
                 <!-- Tombol Logout -->
