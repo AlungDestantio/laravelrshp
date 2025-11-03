@@ -8,20 +8,18 @@ use Exception;
 
 class JenisHewanController extends Controller
 {
-    // Menampilkan daftar jenis hewan
+
     public function index()
     {
         $data = JenisHewan::orderBy('idjenis_hewan')->get();
         return view('admin.jenishewan.index', compact('data'));
     }
 
-    // Form tambah jenis hewan
     public function create()
     {
         return view('admin.jenishewan.create');
     }
 
-    // Simpan jenis hewan baru
     public function store(Request $request)
     {
         $validated = $this->validateJenisHewan($request);
@@ -32,10 +30,10 @@ class JenisHewanController extends Controller
             ->with('success', 'Jenis hewan berhasil ditambahkan.');
     }
 
-    // Validasi data input
     private function validateJenisHewan(Request $request, $id = null)
     {
-        // Jika update, abaikan validasi unik untuk data yang sedang diedit
+
+
         $uniqueRule = $id 
             ? 'unique:jenis_hewan,nama_jenis_hewan,' . $id . ',idjenis_hewan'
             : 'unique:jenis_hewan,nama_jenis_hewan';
@@ -57,7 +55,7 @@ class JenisHewanController extends Controller
         ]);
     }
 
-    // Helper untuk membuat data baru
+
     private function createJenisHewan(array $data)
     {
         try {
@@ -69,20 +67,18 @@ class JenisHewanController extends Controller
         }
     }
 
-    // Helper untuk memformat nama menjadi Title Case
+
     private function formatNamaJenisHewan($nama)
     {
         return trim(ucwords(strtolower($nama)));
     }
 
-    // Form edit
     public function edit($id)
     {
         $item = JenisHewan::findOrFail($id);
         return view('admin.jenishewan.edit', compact('item'));
     }
 
-    // Update data
     public function update(Request $request, $id)
     {
         $validated = $this->validateJenisHewan($request, $id);
@@ -97,7 +93,6 @@ class JenisHewanController extends Controller
             ->with('success', 'Jenis hewan berhasil diperbarui.');
     }
 
-    // Hapus data
     public function destroy($id)
     {
         $item = JenisHewan::findOrFail($id);

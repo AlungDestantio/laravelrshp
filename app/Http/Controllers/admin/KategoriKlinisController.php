@@ -8,20 +8,20 @@ use Exception;
 
 class KategoriKlinisController extends Controller
 {
-    // Menampilkan semua data kategori klinis
+
     public function index()
     {
         $data = KategoriKlinis::orderBy('idkategori_klinis')->get();
         return view('admin.kategoriklinis.index', compact('data'));
     }
 
-    // Halaman form tambah
+
     public function create()
     {
         return view('admin.kategoriklinis.create');
     }
 
-    // Simpan kategori klinis baru
+
     public function store(Request $request)
     {
         $validated = $this->validateKategoriKlinis($request);
@@ -32,7 +32,7 @@ class KategoriKlinisController extends Controller
             ->with('success', 'Kategori klinis berhasil ditambahkan.');
     }
 
-    // Validasi input kategori klinis
+
     private function validateKategoriKlinis(Request $request, $id = null)
     {
         $uniqueRule = $id
@@ -56,7 +56,7 @@ class KategoriKlinisController extends Controller
         ]);
     }
 
-    // Helper untuk menyimpan data baru
+
     private function createKategoriKlinis(array $data)
     {
         try {
@@ -68,20 +68,20 @@ class KategoriKlinisController extends Controller
         }
     }
 
-    // Helper untuk format nama menjadi Title Case
+
     private function formatNamaKategoriKlinis($nama)
     {
         return trim(ucwords(strtolower($nama)));
     }
 
-    // Halaman edit kategori klinis
+
     public function edit($id)
     {
         $item = KategoriKlinis::findOrFail($id);
         return view('admin.kategoriklinis.edit', compact('item'));
     }
 
-    // Update data kategori klinis
+
     public function update(Request $request, $id)
     {
         $validated = $this->validateKategoriKlinis($request, $id);
@@ -96,7 +96,7 @@ class KategoriKlinisController extends Controller
             ->with('success', 'Kategori klinis berhasil diperbarui.');
     }
 
-    // Hapus data kategori klinis
+
     public function destroy($id)
     {
         $item = KategoriKlinis::findOrFail($id);

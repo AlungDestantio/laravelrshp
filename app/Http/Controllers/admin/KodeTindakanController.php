@@ -10,7 +10,7 @@ use Exception;
 
 class KodeTindakanController extends Controller
 {
-    // Menampilkan semua data kode tindakan
+
     public function index()
     {
         $data = KodeTindakanTerapi::with(['kategori', 'kategoriKlinis'])
@@ -20,7 +20,7 @@ class KodeTindakanController extends Controller
         return view('admin.kodeterapi.index', compact('data'));
     }
 
-    // Halaman form tambah
+
     public function create()
     {
         $kategori = Kategori::all();
@@ -28,7 +28,7 @@ class KodeTindakanController extends Controller
         return view('admin.kodeterapi.create', compact('kategori', 'kategori_klinis'));
     }
 
-    // Simpan data baru
+
     public function store(Request $request)
     {
         $validated = $this->validateKodeTindakan($request);
@@ -39,7 +39,7 @@ class KodeTindakanController extends Controller
             ->with('success', 'Kode tindakan berhasil ditambahkan.');
     }
 
-    // Validasi input kode tindakan
+
     private function validateKodeTindakan(Request $request, $id = null)
     {
         $uniqueRule = $id
@@ -72,7 +72,7 @@ class KodeTindakanController extends Controller
         ]);
     }
 
-    // Helper untuk membuat data baru
+
     private function createKodeTindakan(array $data)
     {
         try {
@@ -87,13 +87,13 @@ class KodeTindakanController extends Controller
         }
     }
 
-    // Helper untuk format kode (uppercase dan trim)
+
     private function formatKode($kode)
     {
         return strtoupper(trim($kode));
     }
 
-    // Halaman edit
+
     public function edit($id)
     {
         $item = KodeTindakanTerapi::findOrFail($id);
@@ -103,7 +103,7 @@ class KodeTindakanController extends Controller
         return view('admin.kodeterapi.edit', compact('item', 'kategori', 'kategori_klinis'));
     }
 
-    // Update data
+
     public function update(Request $request, $id)
     {
         $validated = $this->validateKodeTindakan($request, $id);
@@ -121,7 +121,7 @@ class KodeTindakanController extends Controller
             ->with('success', 'Kode tindakan berhasil diperbarui.');
     }
 
-    // Hapus data
+
     public function destroy($id)
     {
         $item = KodeTindakanTerapi::findOrFail($id);
