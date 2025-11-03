@@ -17,26 +17,50 @@ class UserController extends Controller
         return view('admin.user.index', compact('users', 'roles'));
     }
 
+    public function create()
+    {
+        $roles = Role::all();
+        return view('admin.user.create', compact('roles'));
+    }
+
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:user,email',
-            'password' => 'required|string|min:6',
-            'idrole' => 'nullable|exists:role,idrole'
-        ]);
+        $validated = $this->validateUser($request);
+        $user = $this->createUser($validated);
 
-        $user = User::create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        if ($request->idrole) {
-            $user->roles()->attach($request->idrole, ['status' => 1]);
+        if (!empty($validated['idrole'])) {
+            $user->roles()->attach($validated['idrole'], ['status' => 1]);
         }
 
-        return redirect()->route('admin.user.index')->with('success', 'User berhasil dibuat.');
+        return redirect()->route('admin.user.index')
+                         ->with('success', 'User berhasil ditambahkan.');
+    }
+
+    private function validateUser(Request $request)
+    {
+        return $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:user,email,' . ($request->id ?? 'NULL') . ',iduser',
+            'password' => $request->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
+            'idrole' => 'nullable|exists:role,idrole'
+        ]);
+    }
+
+    private function createUser(array $data)
+    {
+        $data['nama'] = $this->formatNamaUser($data['nama']);
+        $data['password'] = Hash::make($data['password']);
+
+        return User::create([
+            'nama' => $data['nama'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
+    }
+
+    private function formatNamaUser($nama)
+    {
+        return ucwords(strtolower(trim($nama)));
     }
 
     public function edit($id)
@@ -48,30 +72,29 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => "required|email|unique:user,email,{$id},iduser",
-            'password' => 'nullable|string|min:6',
-            'idrole' => 'nullable|exists:role,idrole'
-        ]);
-
+        $validated = $this->validateUser($request);
         $user = User::findOrFail($id);
-        $user->update([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => $request->password
-                ? Hash::make($request->password)
-                : $user->password,
-        ]);
 
-        // Update role pivot
-        if ($request->idrole) {
-            $user->roles()->sync([$request->idrole => ['status' => 1]]);
+        $updateData = [
+            'nama' => $this->formatNamaUser($validated['nama']),
+            'email' => $validated['email'],
+        ];
+
+        if (!empty($validated['password'])) {
+            $updateData['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($updateData);
+
+        // Sinkronisasi role
+        if (!empty($validated['idrole'])) {
+            $user->roles()->sync([$validated['idrole'] => ['status' => 1]]);
         } else {
             $user->roles()->detach();
         }
 
-        return redirect()->route('admin.user.index')->with('success', 'User berhasil diperbarui.');
+        return redirect()->route('admin.user.index')
+                         ->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -80,6 +103,7 @@ class UserController extends Controller
         $user->roles()->detach();
         $user->delete();
 
-        return redirect()->route('admin.user.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('admin.user.index')
+                         ->with('success', 'User berhasil dihapus.');
     }
 }

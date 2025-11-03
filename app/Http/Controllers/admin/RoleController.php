@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Role;
@@ -12,11 +13,36 @@ class RoleController extends Controller
         return view('admin.role.index', compact('data'));
     }
 
+    public function create()
+    {
+        return view('admin.role.create');
+    }
+
     public function store(Request $request)
     {
-        $request->validate(['nama_role' => 'required|string|max:255']);
-        Role::create($request->only('nama_role'));
-        return redirect()->route('admin.role.index')->with('success','Role ditambahkan.');
+        $validated = $this->validateRole($request);
+        $this->createRole($validated);
+
+        return redirect()->route('admin.role.index')
+                         ->with('success', 'Role berhasil ditambahkan.');
+    }
+
+    private function validateRole(Request $request)
+    {
+        return $request->validate([
+            'nama_role' => 'required|string|max:255',
+        ]);
+    }
+
+    private function createRole(array $data)
+    {
+        $data['nama_role'] = $this->formatNamaRole($data['nama_role']);
+        Role::create($data);
+    }
+
+    private function formatNamaRole($nama)
+    {
+        return ucwords(strtolower(trim($nama)));
     }
 
     public function edit($id)
@@ -27,15 +53,22 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate(['nama_role' => 'required|string|max:255']);
+        $validated = $this->validateRole($request);
         $item = Role::findOrFail($id);
-        $item->update($request->only('nama_role'));
-        return redirect()->route('admin.role.index')->with('success','Role diperbarui.');
+
+        $validated['nama_role'] = $this->formatNamaRole($validated['nama_role']);
+        $item->update($validated);
+
+        return redirect()->route('admin.role.index')
+                         ->with('success', 'Role berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
-        Role::findOrFail($id)->delete();
-        return redirect()->route('admin.role.index')->with('success','Role dihapus.');
+        $item = Role::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('admin.role.index')
+                         ->with('success', 'Role berhasil dihapus.');
     }
 }

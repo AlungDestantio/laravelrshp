@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-<!-- HEADER -->
 <div class="page-header">
     <div class="container">
         <h1>Data Kategori</h1>
@@ -16,24 +15,21 @@
 </div>
 
 <div class="container">
-    <!-- Tombol Tambah -->
     <div class="d-flex justify-content-between align-items-center mb-3" style="max-width:1100px;margin:auto;">
         <h4 class="fw-bold mb-0">Daftar Kategori</h4>
-        <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#modalAdd">
+        <a href="{{ route('admin.kategori.create') }}" class="btn btn-add">
             <i class="bi bi-plus-circle"></i> Tambah Kategori
-        </button>
+        </a>
     </div>
 
-    <!-- Alert -->
     @if(session('success'))
         <div class="alert alert-success text-center">{{ session('success') }}</div>
     @endif
 
-    <!-- KONTEN CARD -->
     <div class="card">
         <div class="table-responsive">
             <table class="table align-middle">
-                <thead>
+                <thead class="table-light">
                     <tr>
                         <th style="width: 10%">ID</th>
                         <th style="width: 70%">Nama Kategori</th>
@@ -41,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $d)
+                    @forelse($data as $d)
                     <tr>
                         <td>{{ $d->idkategori }}</td>
                         <td>{{ $d->nama_kategori }}</td>
@@ -59,33 +55,16 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-4">
+                            Belum ada data kategori.
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
-
-<!-- MODAL TAMBAH -->
-<div class="modal fade" id="modalAdd" tabindex="-1">
-    <div class="modal-dialog">
-        <form action="{{ route('admin.kategori.store') }}" method="POST" class="modal-content">
-            @csrf
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Kategori</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label>Nama Kategori</label>
-                    <input type="text" name="nama_kategori" class="form-control" placeholder="Masukkan nama kategori" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button class="btn btn-add" type="submit">Simpan</button>
-            </div>
-        </form>
     </div>
 </div>
 @endsection

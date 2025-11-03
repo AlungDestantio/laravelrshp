@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-<!-- HEADER -->
 <div class="page-header">
     <div class="container">
         <h1>Daftar Pet</h1>
@@ -15,37 +14,34 @@
 </div>
 
 <div class="container">
-    <!-- Tombol Tambah -->
     <div class="d-flex justify-content-between align-items-center mb-3" style="max-width:1100px;margin:auto;">
         <h4 class="fw-bold mb-0">Daftar Pet</h4>
-        <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#modalAdd">
+        <a href="{{ route('admin.pet.create') }}" class="btn btn-add">
             <i class="bi bi-plus-circle"></i> Tambah Pet
-        </button>
+        </a>
     </div>
 
-    <!-- Alert -->
     @if(session('success'))
         <div class="alert alert-success text-center">{{ session('success') }}</div>
     @endif
 
-    <!-- KONTEN CARD -->
     <div class="card">
         <div class="table-responsive">
             <table class="table align-middle">
-                <thead>
+                <thead class="table-light">
                     <tr>
-                        <th style="width:5%">ID</th>
-                        <th style="width:15%">Nama</th>
-                        <th style="width:15%">Pemilik</th>
-                        <th style="width:15%">Tanggal Lahir</th>
-                        <th style="width:15%">Warna/Tanda</th>
-                        <th style="width:5%">JK</th>
-                        <th style="width:15%">Ras</th>
-                        <th style="width:15%">Aksi</th>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>Pemilik</th>
+                        <th>Tgl Lahir</th>
+                        <th>Warna/Tanda</th>
+                        <th>JK</th>
+                        <th>Ras</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $d)
+                    @forelse($data as $d)
                     <tr>
                         <td>{{ $d->idpet }}</td>
                         <td>{{ $d->nama }}</td>
@@ -68,67 +64,14 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">Belum ada data pet.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
-
-<!-- MODAL TAMBAH -->
-<div class="modal fade" id="modalAdd" tabindex="-1">
-    <div class="modal-dialog">
-        <form action="{{ route('admin.pet.store') }}" method="POST" class="modal-content">
-            @csrf
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Pet</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label>Nama</label>
-                    <input type="text" name="nama" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label>Pemilik</label>
-                    <select name="idpemilik" class="form-select" required>
-                        <option value="">Pilih Pemilik</option>
-                        @foreach($pemilik as $p)
-                            <option value="{{ $p->idpemilik }}">{{ $p->user->nama }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label>Tanggal Lahir</label>
-                    <input type="date" name="tanggal_lahir" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Warna / Tanda</label>
-                    <input type="text" name="warna_tanda" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Jenis Kelamin</label>
-                    <select name="jenis_kelamin" class="form-select">
-                        <option value="">-</option>
-                        <option value="M">Jantan (M)</option>
-                        <option value="F">Betina (F)</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label>Ras</label>
-                    <select name="idras_hewan" class="form-select" required>
-                        <option value="">Pilih Ras</option>
-                        @foreach($ras as $r)
-                            <option value="{{ $r->idras_hewan }}">{{ $r->nama_ras }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button class="btn btn-add" type="submit">Simpan</button>
-            </div>
-        </form>
     </div>
 </div>
 @endsection

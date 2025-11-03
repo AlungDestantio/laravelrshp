@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<!-- Header -->
+<!-- HEADER -->
 <div class="page-header">
     <div class="container">
         <h1>Daftar Jenis Hewan</h1>
@@ -18,19 +18,22 @@
 <div class="container">
   <div class="d-flex justify-content-between align-items-center mb-3" style="max-width:1100px;margin:auto;">
     <h4 class="fw-bold mb-0">Daftar Jenis Hewan</h4>
-    <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#modalAddJenis">
-      <i class="bi bi-plus-circle"></i> Tambah Jenis Hewan
-    </button>
+    {{-- Tombol menuju halaman create --}}
+    <a href="{{ route('admin.jenis-hewan.create') }}" class="btn btn-add">
+        <i class="bi bi-plus-circle"></i> Tambah Jenis Hewan
+    </a>
   </div>
 
+  {{-- Alert sukses --}}
   @if(session('success'))
   <div class="alert alert-success text-center">{{ session('success') }}</div>
   @endif
 
+  {{-- Tabel Data --}}
   <div class="card">
     <div class="table-responsive">
       <table class="table align-middle">
-        <thead>
+        <thead class="table-light">
           <tr>
             <th style="width: 10%">ID</th>
             <th style="width: 70%">Nama Jenis Hewan</th>
@@ -38,7 +41,7 @@
           </tr>
         </thead>
         <tbody>
-          @foreach($data as $d)
+          @forelse($data as $d)
           <tr>
             <td>{{ $d->idjenis_hewan }}</td>
             <td>{{ $d->nama_jenis_hewan }}</td>
@@ -59,33 +62,16 @@
               </div>
             </td>
           </tr>
-          @endforeach
+          @empty
+          <tr>
+            <td colspan="3" class="text-center text-muted py-4">
+              Belum ada data jenis hewan.
+            </td>
+          </tr>
+          @endforelse
         </tbody>
       </table>
     </div>
   </div>
-</div>
-
-<!-- MODAL TAMBAH -->
-<div class="modal fade" id="modalAddJenis" tabindex="-1">
-    <div class="modal-dialog">
-        <form action="{{ route('admin.jenis-hewan.store') }}" method="POST" class="modal-content">
-            @csrf
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Jenis Hewan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label>Nama Jenis Hewan</label>
-                    <input type="text" name="nama_jenis_hewan" class="form-control" placeholder="Masukkan nama jenis hewan" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button class="btn btn-add" type="submit">Simpan</button>
-            </div>
-        </form>
-    </div>
 </div>
 @endsection
