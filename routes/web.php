@@ -86,6 +86,30 @@ Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function ()
     Route::get('/user/{id}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/{id}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('user.destroy');
+
+    // DATA PEMILIK
+    Route::get('/pemilik', [App\Http\Controllers\Admin\PemilikController::class, 'index'])->name('pemilik.index');
+    Route::get('/pemilik/create', [App\Http\Controllers\Admin\PemilikController::class, 'create'])->name('pemilik.create');
+    Route::post('/pemilik', [App\Http\Controllers\Admin\PemilikController::class, 'store'])->name('pemilik.store');
+    Route::get('/pemilik/{id}/edit', [App\Http\Controllers\Admin\PemilikController::class, 'edit'])->name('pemilik.edit');
+    Route::put('/pemilik/{id}', [App\Http\Controllers\Admin\PemilikController::class, 'update'])->name('pemilik.update');
+    Route::delete('/pemilik/{id}', [App\Http\Controllers\Admin\PemilikController::class, 'destroy'])->name('pemilik.destroy');
+
+    // DATA DOKTER
+    Route::get('/dokter', [App\Http\Controllers\Admin\DokterController::class, 'index'])->name('dokter.index');
+    Route::get('/dokter/create', [App\Http\Controllers\Admin\DokterController::class, 'create'])->name('dokter.create');
+    Route::post('/dokter', [App\Http\Controllers\Admin\DokterController::class, 'store'])->name('dokter.store');
+    Route::get('/dokter/{id}/edit', [App\Http\Controllers\Admin\DokterController::class, 'edit'])->name('dokter.edit');
+    Route::put('/dokter/{id}', [App\Http\Controllers\Admin\DokterController::class, 'update'])->name('dokter.update');
+    Route::delete('/dokter/{id}', [App\Http\Controllers\Admin\DokterController::class, 'destroy'])->name('dokter.destroy');
+
+    // DATA PERAWAT
+    Route::get('/perawat', [App\Http\Controllers\Admin\PerawatController::class, 'index'])->name('perawat.index');
+    Route::get('/perawat/create', [App\Http\Controllers\Admin\PerawatController::class, 'create'])->name('perawat.create');
+    Route::post('/perawat', [App\Http\Controllers\Admin\PerawatController::class, 'store'])->name('perawat.store');
+    Route::get('/perawat/{id}/edit', [App\Http\Controllers\Admin\PerawatController::class, 'edit'])->name('perawat.edit');
+    Route::put('/perawat/{id}', [App\Http\Controllers\Admin\PerawatController::class, 'update'])->name('perawat.update');
+    Route::delete('/perawat/{id}', [App\Http\Controllers\Admin\PerawatController::class, 'destroy'])->name('perawat.destroy');
 });
 
 // akses Resepsionis
@@ -94,6 +118,11 @@ Route::middleware('isResepsionis')->prefix('resepsionis')->name('resepsionis.')-
 
     Route::get('/registrasi-pemilik', [App\Http\Controllers\resepsionis\PemilikController::class, 'index'])->name('registrasi-pemilik.index');
     Route::post('/registrasi-pemilik', [App\Http\Controllers\resepsionis\PemilikController::class, 'store'])->name('registrasi-pemilik.store');
+    Route::get('/registrasi-pemilik/{id}/edit', [App\Http\Controllers\Resepsionis\PemilikController::class, 'edit'])->name('registrasi-pemilik.edit');
+    Route::put('/registrasi-pemilik/{id}', [App\Http\Controllers\Resepsionis\PemilikController::class, 'update'])->name('registrasi-pemilik.update');
+    Route::delete('/registrasi-pemilik/{id}', [App\Http\Controllers\Resepsionis\PemilikController::class, 'destroy'])->name('registrasi-pemilik.destroy');
+
+
 
     Route::get('/registrasi-pet', [App\Http\Controllers\resepsionis\PetController::class, 'index'])->name('registrasi-pet.index');
     Route::post('/registrasi-pet', [App\Http\Controllers\resepsionis\PetController::class, 'store'])->name('registrasi-pet.store');

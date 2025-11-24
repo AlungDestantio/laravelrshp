@@ -10,6 +10,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public $timestamps = false;
     protected $table = 'user'; // Nama tabel di database kamu
     protected $primaryKey = 'iduser'; // Primary key-nya
 

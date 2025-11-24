@@ -193,6 +193,9 @@
                     ['icon'=>'bi-heart-pulse-fill','title'=>'Data Pet','route'=>'admin.pet.index', 'desc'=>'Kelola data hewan peliharaan pasien'],
                     ['icon'=>'bi-people-fill','title'=>'Role & Hak Akses','route'=>'admin.role.index', 'desc'=>'Kelola role dan permission pengguna'],
                     ['icon'=>'bi-people-fill','title'=>'User & Pengguna','route'=>'admin.user.index', 'desc'=>'Kelola akun pengguna dan assignment role'],
+                    ['icon'=>'bi-person-badge-fill','title'=>'Data Pemilik','route'=>'admin.pemilik.index', 'desc'=>'Kelola data pemilik hewan'],
+                    ['icon'=>'bi-person-vcard-fill','title'=>'Data Dokter','route'=>'admin.dokter.index', 'desc'=>'Kelola data dokter hewan'],
+                    ['icon'=>'bi-person-workspace','title'=>'Data Perawat','route'=>'admin.perawat.index', 'desc'=>'Kelola data perawat klinik'],
                 ];
             @endphp
 

@@ -49,7 +49,7 @@ class TemuDokterController extends Controller
                 'status' => 'M',
             ]);
 
-            return redirect()->route('resepsionis.temu_dokter')
+            return redirect()->route('resepsionis.temu-dokter.store')
                 ->with('success', 'Temu Dokter berhasil didaftarkan dengan No. Urut ' . $noUrutBaru);
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal menambah antrean: ' . $e->getMessage());
