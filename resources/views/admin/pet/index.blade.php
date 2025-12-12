@@ -13,43 +13,50 @@
     </div>
 </div>
 
+<div class="alert-container">
+    @if(session('success'))
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+</div>
+
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3" style="max-width:1100px;margin:auto;">
-        <h4 class="fw-bold mb-0">Daftar Pet</h4>
         <a href="{{ route('admin.pet.create') }}" class="btn btn-add">
             <i class="bi bi-plus-circle"></i> Tambah Pet
         </a>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success text-center">{{ session('success') }}</div>
-    @endif
 
     <div class="card">
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>ID</th>
+                        <th>NO</th>
                         <th>Nama</th>
                         <th>Pemilik</th>
                         <th>Tgl Lahir</th>
+                        <th>Jenis</th>
+                        <th>Ras</th>
                         <th>Warna/Tanda</th>
                         <th>JK</th>
-                        <th>Ras</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($data as $d)
                     <tr>
-                        <td>{{ $d->idpet }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $d->nama }}</td>
                         <td>{{ $d->pemilik->user->nama ?? '-' }}</td>
                         <td>{{ $d->tanggal_lahir }}</td>
-                        <td>{{ $d->warna_tanda }}</td>
-                        <td>{{ $d->jenis_kelamin }}</td>
+                        <td>{{ $d->ras->jenis->nama_jenis_hewan }}</td>
                         <td>{{ $d->ras->nama_ras ?? '-' }}</td>
+                        <td>{{ $d->warna_tanda }}</td>
+                        <td>{{ $d->jenis_kelamin == 'J' ? 'Jantan' : 'Betina' }}</td>
+                        
                         <td>
                             <div class="d-flex gap-2">
                                 <a href="{{ route('admin.pet.edit', $d->idpet) }}" class="action-btn btn-edit">

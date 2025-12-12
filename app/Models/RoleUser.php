@@ -11,7 +11,7 @@ class RoleUser extends Model
 
     protected $table = 'role_user';
     protected $primaryKey = 'idrole_user';
-    public $timestamps = false; // karena tabel role_user tidak ada created_at / updated_at
+    public $timestamps = false; 
 
     protected $fillable = [
         'iduser',
@@ -19,13 +19,12 @@ class RoleUser extends Model
         'status'
     ];
 
-    // Relasi ke Role
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'idrole', 'idrole');
     }
-
-    // Relasi ke User
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'iduser', 'iduser');

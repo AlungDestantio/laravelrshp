@@ -12,31 +12,60 @@
 </head>
 <body>
 
-    <!-- === NAVBAR ADMIN === -->
+    <!-- === NAVBAR PERAWAT === -->
     <nav class="navbar navbar-admin navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
+            
+            <!-- Logo -->
             <a class="navbar-brand" href="{{ route('perawat.dashboard') }}">
                 <i class="bi bi-heart-pulse-fill"></i>
                 <span>RSH Pendidikan UNAIR</span>
             </a>
 
             <div class="ms-auto d-flex align-items-center">
-                <!-- Tombol Dashboard -->
-                <a href="{{ route('perawat.dashboard') }}" class="nav-link {{ request()->routeIs('perawat.dashboard') ? 'active' : '' }}">
+
+                <!-- Dashboard -->
+                <a href="{{ route('perawat.dashboard') }}" 
+                   class="nav-link {{ request()->routeIs('perawat.dashboard') ? 'active' : '' }}">
                     <i class="bi bi-house-fill"></i> Dashboard Perawat
                 </a>
 
-                <a href="{{ route('perawat.rekam-medis.index') }}" class="nav-link {{ request()->routeIs('perawat.rekam-medis.index') ? 'active' : '' }}">
+                <!-- Rekam Medis -->
+                <a href="{{ route('perawat.rekam-medis.index') }}" 
+                   class="nav-link {{ request()->routeIs('perawat.rekam-medis.index') ? 'active' : '' }}">
                     <i class="bi bi-clipboard2-pulse-fill"></i> Rekam Medis
                 </a>
 
-                <!-- Tombol Logout -->
-                <form action="{{ route('logout') }}" method="POST" class="m-0 ms-2">
-                    @csrf
-                    <button type="submit" class="nav-link border-0 bg-transparent">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </button>
-                </form>
+                <!-- === DROPDOWN PROFILE === -->
+                <div class="dropdown">
+                    <a href="#"
+                        class="nav-link dropdown-toggle {{ request()->routeIs('perawat.profile') ? 'active' : '' }}"
+                        data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i>
+                        {{ session('user_name') }}
+                    </a>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('perawat.profile') }}">
+                                <i class="bi bi-person-lines-fill"></i> Profil Saya
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </nav>
@@ -56,6 +85,7 @@
                         Rumah Sakit Hewan Pendidikan Universitas Airlangga berkomitmen memberikan pelayanan kesehatan hewan terbaik dengan didukung tenaga profesional dan fasilitas modern.
                     </p>
                 </div>
+
                 <div class="col-md-4 mb-4">
                     <h5 class="footer-title">Link Cepat</h5>
                     <ul class="list-unstyled">
@@ -65,6 +95,7 @@
                         <li><a href="{{ route('kontak') }}" class="footer-link"><i class="bi bi-chevron-right"></i> Kontak</a></li>
                     </ul>
                 </div>
+
                 <div class="col-md-4 mb-4">
                     <h5 class="footer-title">Kontak Kami</h5>
                     <p style="color: rgba(255,255,255,0.8);">
@@ -75,6 +106,7 @@
                     </p>
                 </div>
             </div>
+
             <hr style="border-color: rgba(255,255,255,0.2);">
             <div class="text-center" style="color: rgba(255,255,255,0.7);">
                 <p class="mb-0">&copy; 2025 Rumah Sakit Hewan Pendidikan UNAIR. All Rights Reserved.</p>

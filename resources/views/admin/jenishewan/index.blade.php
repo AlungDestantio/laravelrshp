@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @section('title', 'Jenis Hewan')
 
 @section('styles')
@@ -15,19 +14,23 @@
     </div>
 </div>
 
+<div class="alert-container">
+    @if(session('success'))
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+</div>
+
 <div class="container">
   <div class="d-flex justify-content-between align-items-center mb-3" style="max-width:1100px;margin:auto;">
-    <h4 class="fw-bold mb-0">Daftar Jenis Hewan</h4>
     {{-- Tombol menuju halaman create --}}
     <a href="{{ route('admin.jenis-hewan.create') }}" class="btn btn-add">
         <i class="bi bi-plus-circle"></i> Tambah Jenis Hewan
     </a>
   </div>
 
-  {{-- Alert sukses --}}
-  @if(session('success'))
-  <div class="alert alert-success text-center">{{ session('success') }}</div>
-  @endif
 
   {{-- Tabel Data --}}
   <div class="card">
@@ -35,7 +38,7 @@
       <table class="table align-middle">
         <thead class="table-light">
           <tr>
-            <th style="width: 10%">ID</th>
+            <th style="width: 10%">NO</th>
             <th style="width: 70%">Nama Jenis Hewan</th>
             <th style="width: 20%">Aksi</th>
           </tr>
@@ -43,7 +46,7 @@
         <tbody>
           @forelse($data as $d)
           <tr>
-            <td>{{ $d->idjenis_hewan }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $d->nama_jenis_hewan }}</td>
             <td>
               <div class="d-flex gap-2">

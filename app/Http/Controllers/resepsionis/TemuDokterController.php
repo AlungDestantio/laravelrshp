@@ -83,4 +83,19 @@ class TemuDokterController extends Controller
             default => 'Tidak Diketahui',
         };
     }
+
+    public function destroy($id)
+    {
+        $data = TemuDokter::findOrFail($id);
+
+
+        $data->deleted_by = auth()->id();
+        $data->save();
+
+
+        $data->delete();
+
+        return redirect()->route('resepsionis.temu-dokter.index')
+            ->with('success', 'Data temu dokter berhasil dihapus!');
+    }
 }

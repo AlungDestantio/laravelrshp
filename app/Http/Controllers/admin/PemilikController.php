@@ -11,14 +11,14 @@ class PemilikController extends Controller
 {
     public function index()
     {
-        $data = Pemilik::with('user')->orderBy('idpemilik', 'DESC')->get();
+        $data = Pemilik::with('user')->orderBy('idpemilik', 'ASC')->get();
         return view('admin.pemilik.index', compact('data'));
     }
 
     public function create()
     {
         $users = User::whereHas('roles', function($q){
-            $q->where('nama_role', 'pemilik');
+            $q->where('role.idrole', 5);
         })->get();
 
         return view('admin.pemilik.create', compact('users'));
@@ -35,7 +35,10 @@ class PemilikController extends Controller
     public function edit($id)
     {
         $data = Pemilik::findOrFail($id);
-        $users = User::orderBy('nama')->get();
+        $users = User::whereHas('roles', function($q){
+            $q->where('role.idrole', 5);
+        })->get();
+
 
         return view('admin.pemilik.edit', compact('data', 'users'));
     }
@@ -51,9 +54,14 @@ class PemilikController extends Controller
 
     public function destroy($id)
     {
-        Pemilik::findOrFail($id)->delete();
+        $data = Pemilik::findOrFail($id);
+        $data->deleted_by = auth()->id(); 
+        $data->save();
+
+        $data->delete(); 
 
         return redirect()->route('admin.pemilik.index')
             ->with('success', 'Data pemilik berhasil dihapus!');
     }
+
 }

@@ -30,13 +30,36 @@
                     <i class="bi bi-clipboard2-pulse-fill"></i> Rekam Medis
                 </a>
 
-                <!-- Tombol Logout -->
-                <form action="{{ route('logout') }}" method="POST" class="m-0 ms-2">
-                    @csrf
-                    <button type="submit" class="nav-link border-0 bg-transparent">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </button>
-                </form>
+                <!-- === DROPDOWN PROFILE === -->
+                <div class="dropdown">
+                    <a href="#"
+                        class="nav-link dropdown-toggle {{ request()->routeIs('dokter.profile') ? 'active' : '' }}"
+                        data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i>
+                        {{ session('user_name') }}
+                    </a>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('dokter.profile') }}">
+                                <i class="bi bi-person-lines-fill"></i> Profil Saya
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </nav>

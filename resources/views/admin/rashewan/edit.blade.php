@@ -7,20 +7,41 @@
 @endsection
 
 @section('content')
-<div class="container mt-5" style="max-width:700px;">
-    <h2 class="text-center fw-bold mb-4 text-primary">Edit Ras Hewan</h2>
 
-    <div class="card shadow-sm">
+{{-- ================= HEADER ================= --}}
+<div class="page-header">
+    <div class="container">
+        <h1>Edit Ras Hewan</h1>
+        <p>Perbarui data ras hewan sesuai jenisnya.</p>
+    </div>
+</div>
+
+<div class="container">
+
+    {{-- ALERT VALIDASI --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="card mb-5">
         <div class="card-body">
             <form action="{{ route('admin.ras-hewan.update', $item->idras_hewan) }}" method="POST">
                 @csrf
                 @method('PUT')
 
+                {{-- NAMA RAS --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Nama Ras</label>
                     <input type="text" name="nama_ras" class="form-control" value="{{ old('nama_ras', $item->nama_ras) }}" required>
                 </div>
 
+                {{-- JENIS HEWAN --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Jenis Hewan</label>
                     <select name="idjenis_hewan" class="form-select" required>
@@ -32,12 +53,18 @@
                     </select>
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('admin.ras-hewan.index') }}" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-warning text-white">Perbarui</button>
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-add px-4 ms-2 text-white">
+                        <i class="bi bi-save me-1"></i> Perbarui
+                    </button>
+                    <a href="{{ route('admin.ras-hewan.index') }}" class="btn btn-secondary px-4">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Kembali
+                    </a>
                 </div>
+
             </form>
         </div>
     </div>
+
 </div>
 @endsection

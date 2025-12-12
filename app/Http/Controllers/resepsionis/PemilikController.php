@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Pemilik;
+use App\Models\RoleUser;
 
 class PemilikController extends Controller
 {
     public function index()
     {
-        $data = Pemilik::with('user')->orderBy('idpemilik', 'DESC')->get();
+        $data = Pemilik::with('user')->orderBy('idpemilik', 'ASC')->get();
         return view('resepsionis.registrasipemilik.index', compact('data'));
     }
 
@@ -29,21 +30,19 @@ class PemilikController extends Controller
 
         DB::beginTransaction();
         try {
-            // 1. Buat user baru
+
             $user = User::create([
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
 
-            // 2. Set role pemilik ke tabel role_user
-            DB::table('role_user')->insert([
+            RoleUser::create([
                 'iduser' => $user->iduser,
-                'idrole' => 4,   // role pemilik
+                'idrole' => 5,
                 'status' => 1
             ]);
 
-            // 3. Buat data pemilik
             Pemilik::create([
                 'no_wa' => $request->no_wa,
                 'alamat' => $request->alamat,
@@ -57,6 +56,7 @@ class PemilikController extends Controller
             DB::rollback();
             return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
+
     }
 
 
@@ -80,13 +80,15 @@ class PemilikController extends Controller
         try {
             $pemilik = Pemilik::findOrFail($id);
 
-            // Update user
-            User::where('iduser', $pemilik->iduser)->update([
+
+            $user = $pemilik->user; 
+            $user->update([
                 'nama' => $request->nama,
                 'email' => $request->email,
             ]);
 
-            // Update pemilik
+
+
             $pemilik->update([
                 'no_wa' => $request->no_wa,
                 'alamat' => $request->alamat,
@@ -101,23 +103,16 @@ class PemilikController extends Controller
         }
     }
 
-
     public function destroy($id)
     {
-        DB::beginTransaction();
-        try {
-            $pemilik = Pemilik::findOrFail($id);
+        $data = Pemilik::findOrFail($id);
+        $data->deleted_by = auth()->id(); 
+        $data->save();
 
-            // Hapus user lalu pemilik
-            User::where('iduser', $pemilik->iduser)->delete();
-            $pemilik->delete();
+        $data->delete(); 
 
-            DB::commit();
-            return redirect()->route('resepsionis.registrasi-pemilik.index')
-                ->with('success', 'Data pemilik berhasil dihapus!');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return back()->with('error', $e->getMessage());
-        }
+        return redirect()->route('resepsionis.registrasi-pemilik.index')
+            ->with('success', 'Data pemilik berhasil dihapus!');
     }
+
 }

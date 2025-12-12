@@ -95,11 +95,16 @@ class JenisHewanController extends Controller
 
     public function destroy($id)
     {
-        $item = JenisHewan::findOrFail($id);
-        $item->delete();
+        $data = JenisHewan::findOrFail($id);
 
-        return redirect()
-            ->route('admin.jenis-hewan.index')
+
+        $data->deleted_by = auth()->id();
+        $data->save();
+
+
+        $data->delete();
+
+        return redirect()->route('admin.jenis-hewan.index')
             ->with('success', 'Jenis hewan berhasil dihapus.');
     }
 }

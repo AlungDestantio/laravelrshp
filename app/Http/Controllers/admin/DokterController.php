@@ -11,17 +11,17 @@ class DokterController extends Controller
 {
     public function index()
     {
-        $data = Dokter::with('user')->orderBy('id_dokter','DESC')->get();
+        $data = Dokter::with('user')->orderBy('id_dokter','ASC')->get();
         return view('admin.dokter.index', compact('data'));
     }
 
     public function create()
     {
-    $users = User::whereHas('roles', function($q){
-        $q->where('nama_role', 'dokter');
-    })->get();
+        $users = User::whereHas('roles', function($q){
+            $q->where('role.idrole', 2);
+        })->get();
 
-    return view('admin.dokter.create', compact('users'));
+        return view('admin.dokter.create', compact('users'));
     }
 
 
@@ -35,8 +35,10 @@ class DokterController extends Controller
 
     public function edit($id)
     {
-        $data = Dokter::findOrFail($id);
-        $users = User::orderBy('nama')->get();
+        $data = Dokter::with('user')->findOrFail($id);
+        $users = User::whereHas('roles', function($q){
+            $q->where('role.idrole', 2);
+        })->get();
 
         return view('admin.dokter.edit', compact('data', 'users'));
     }
@@ -52,7 +54,11 @@ class DokterController extends Controller
 
     public function destroy($id)
     {
-        Dokter::findOrFail($id)->delete();
+        $data = Dokter::findOrFail($id);
+        $data->deleted_by = auth()->id(); 
+        $data->save();
+
+        $data->delete(); 
 
         return redirect()->route('admin.dokter.index')
             ->with('success', 'Data dokter berhasil dihapus!');

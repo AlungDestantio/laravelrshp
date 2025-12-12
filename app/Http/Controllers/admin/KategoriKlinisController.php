@@ -96,14 +96,16 @@ class KategoriKlinisController extends Controller
             ->with('success', 'Kategori klinis berhasil diperbarui.');
     }
 
-
     public function destroy($id)
     {
-        $item = KategoriKlinis::findOrFail($id);
-        $item->delete();
+        $data = KategoriKlinis::findOrFail($id);
 
-        return redirect()
-            ->route('admin.kategori-klinis.index')
+        $data->deleted_by = auth()->id();
+        $data->save();
+
+        $data->delete();
+
+        return redirect()->route('admin.kategori-klinis.index')
             ->with('success', 'Kategori klinis berhasil dihapus.');
     }
 }

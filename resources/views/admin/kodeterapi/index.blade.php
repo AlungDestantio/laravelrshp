@@ -13,24 +13,28 @@
     </div>
 </div>
 
+<div class="alert-container">
+    @if(session('success'))
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+</div>
+
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3" style="max-width:1100px;margin:auto;">
-        <h4 class="fw-bold mb-0">Daftar Kode Tindakan Terapi</h4>
         <a href="{{ route('admin.kode-tindakan.create') }}" class="btn btn-add">
             <i class="bi bi-plus-circle"></i> Tambah Kode Tindakan
         </a>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success text-center">{{ session('success') }}</div>
-    @endif
 
     <div class="card">
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th style="width:5%">ID</th>
+                        <th style="width:5%">NO</th>
                         <th style="width:10%">Kode</th>
                         <th style="width:35%">Deskripsi</th>
                         <th style="width:15%">Kategori</th>
@@ -41,7 +45,7 @@
                 <tbody>
                     @forelse($data as $d)
                     <tr>
-                        <td>{{ $d->idkode_tindakan_terapi }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $d->kode }}</td>
                         <td>{{ $d->deskripsi_tindakan_terapi }}</td>
                         <td>{{ $d->kategori->nama_kategori ?? '-' }}</td>

@@ -182,7 +182,7 @@
 
     <!-- Menu Section -->
     <div class="container">
-        <h2 class="menu-section-title">Menu Respsionis</h2>
+        <h2 class="menu-section-title">Menu Resepsionis</h2>
         
         <div class="row g-4 mb-5 justify-content-center">
             @php

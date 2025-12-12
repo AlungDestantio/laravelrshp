@@ -11,14 +11,14 @@ class PerawatController extends Controller
 {
     public function index()
     {
-        $data = Perawat::with('user')->orderBy('id_perawat','DESC')->get();
+        $data = Perawat::with('user')->orderBy('id_perawat','ASC')->get();
         return view('admin.perawat.index', compact('data'));
     }
 
     public function create()
     {
         $users = User::whereHas('roles', function($q){
-            $q->where('nama_role', 'perawat');
+            $q->where('role.idrole', 3);
         })->get();
 
         return view('admin.perawat.create', compact('users'));
@@ -35,7 +35,10 @@ class PerawatController extends Controller
     public function edit($id)
     {
         $data = Perawat::findOrFail($id);
-        $users = User::orderBy('nama')->get();
+        $users = User::whereHas('roles', function($q){
+            $q->where('role.idrole', 3);
+        })->get();
+
 
         return view('admin.perawat.edit', compact('data','users'));
     }
@@ -49,9 +52,14 @@ class PerawatController extends Controller
             ->with('success', 'Data perawat berhasil diperbarui!');
     }
 
+
     public function destroy($id)
     {
-        Perawat::findOrFail($id)->delete();
+        $data = Perawat::findOrFail($id);
+        $data->deleted_by = auth()->id(); 
+        $data->save();
+
+        $data->delete(); 
 
         return redirect()->route('admin.perawat.index')
             ->with('success', 'Data perawat berhasil dihapus!');

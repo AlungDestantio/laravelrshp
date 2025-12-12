@@ -7,49 +7,89 @@
 @endsection
 
 @section('content')
-<div class="container mt-5" style="max-width:700px;">
-    <h2 class="text-center fw-bold mb-4 text-primary">Edit User</h2>
 
-    <div class="card shadow-sm">
+{{-- =================== HEADER =================== --}}
+<div class="page-header">
+    <div class="container">
+        <h1>Edit User</h1>
+        <p>Perbarui informasi user, termasuk role dan status akun.</p>
+    </div>
+</div>
+
+<div class="container">
+
+    {{-- ALERT VALIDASI --}}
+    @if ($errors->any())
+        <div class="alert alert-danger text-start">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+
+    <div class="card mb-5">
         <div class="card-body">
             <form action="{{ route('admin.user.update', $user->iduser) }}" method="POST">
                 @csrf
                 @method('PUT')
 
+                {{-- NAMA --}}
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Nama</label>
-                    <input type="text" name="nama" class="form-control" value="{{ old('nama', $user->nama) }}" required>
+                    <label for="nama" class="form-label fw-semibold">Nama</label>
+                    <input type="text"
+                           name="nama"
+                           id="nama"
+                           class="form-control @error('nama') is-invalid @enderror"
+                           value="{{ old('nama', $user->nama) }}"
+                           required>
+                    @error('nama')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
+                {{-- EMAIL --}}
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Email</label>
-                    <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                    <label for="email" class="form-label fw-semibold">Email</label>
+                    <input type="email"
+                           name="email"
+                           id="email"
+                           class="form-control @error('email') is-invalid @enderror"
+                           value="{{ old('email', $user->email) }}"
+                           required>
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
+                {{-- PASSWORD --}}
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Password (kosongkan jika tidak diubah)</label>
-                    <input type="password" name="password" class="form-control">
+                    <label for="password" class="form-label fw-semibold">Password (kosongkan jika tidak diubah)</label>
+                    <input type="password"
+                           name="password"
+                           id="password"
+                           class="form-control @error('password') is-invalid @enderror">
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Role</label>
-                    <select name="idrole" class="form-select">
-                        <option value="">-- Pilih Role --</option>
-                        @foreach($roles as $r)
-                            <option value="{{ $r->idrole }}" 
-                                {{ $user->roles->first()?->idrole == $r->idrole ? 'selected' : '' }}>
-                                {{ $r->nama_role }}
-                            </option>
-                        @endforeach
-                    </select>
+                {{-- BUTTON --}}
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-add text-white px-4 me-2">
+                        <i class="bi bi-save me-1"></i> Perbarui
+                    </button>
+
+                    <a href="{{ route('admin.user.index') }}" class="btn btn-secondary px-4">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Kembali
+                    </a>
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('admin.user.index') }}" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-warning text-white">Perbarui</button>
-                </div>
             </form>
         </div>
     </div>
 </div>
+
 @endsection

@@ -97,14 +97,17 @@ class KategoriController extends Controller
             ->with('success', 'Kategori berhasil diperbarui.');
     }
 
-
     public function destroy($id)
     {
-        $item = Kategori::findOrFail($id);
-        $item->delete();
+        $data = Kategori::findOrFail($id);
 
-        return redirect()
-            ->route('admin.kategori.index')
+ 
+        $data->deleted_by = auth()->id();
+        $data->save();
+
+        $data->delete();
+
+        return redirect()->route('admin.kategori.index')
             ->with('success', 'Kategori berhasil dihapus.');
     }
 }

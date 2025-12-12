@@ -7,12 +7,20 @@
 @endsection
 
 @section('content')
-<div class="container mt-5" style="max-width:700px;">
-    <h2 class="text-center fw-bold mb-4 text-primary">Edit Jenis Hewan</h2>
+
+{{-- =================== HEADER =================== --}}
+<div class="page-header">
+    <div class="container">
+        <h1>Edit Jenis Hewan</h1>
+        <p>Perbarui data jenis hewan yang tersedia di klinik.</p>
+    </div>
+</div>
+
+<div class="container">
 
     {{-- ALERT VALIDASI --}}
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger text-start">
             <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -21,7 +29,7 @@
         </div>
     @endif
 
-    <div class="card shadow-sm">
+    <div class="card mb-5">
         <div class="card-body">
             <form action="{{ route('admin.jenis-hewan.update', $item->idjenis_hewan) }}" method="POST">
                 @csrf
@@ -29,26 +37,19 @@
 
                 <div class="mb-3">
                     <label for="nama_jenis_hewan" class="form-label fw-semibold">Nama Jenis Hewan</label>
-                    <input 
-                        type="text" 
-                        name="nama_jenis_hewan" 
-                        id="nama_jenis_hewan" 
-                        class="form-control @error('nama_jenis_hewan') is-invalid @enderror"
-                        value="{{ old('nama_jenis_hewan', $item->nama_jenis_hewan) }}" 
-                        required
-                    >
+                    <input type="text" name="nama_jenis_hewan" id="nama_jenis_hewan" class="form-control @error('nama_jenis_hewan') is-invalid @enderror" value="{{ old('nama_jenis_hewan', $item->nama_jenis_hewan) }}" placeholder="Masukkan nama jenis hewan" required>
                     @error('nama_jenis_hewan')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('admin.jenis-hewan.index') }}" class="btn btn-secondary">
-                        Kembali
-                    </a>
-                    <button type="submit" class="btn btn-warning text-white">
-                        <i class="bi bi-save"></i> Perbarui
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-add px-4 me-2">
+                        <i class="bi bi-save me-1"></i> Perbarui
                     </button>
+                    <a href="{{ route('admin.jenis-hewan.index') }}" class="btn btn-secondary px-4">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Kembali
+                    </a>
                 </div>
             </form>
         </div>

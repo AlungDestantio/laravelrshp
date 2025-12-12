@@ -83,6 +83,9 @@
     
     .admin-menu-card .card-body {
         padding: 35px 25px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
     
     .icon-wrapper {
@@ -135,6 +138,7 @@
         transition: all 0.3s ease;
         box-shadow: 0 4px 12px rgba(0,102,204,0.2);
         width: 100%;
+        margin-top: auto;
     }
     
     .admin-menu-card .btn:hover {
@@ -164,6 +168,13 @@
             min-height: auto;
         }
     }
+    @media (min-width: 1200px) {
+    .five-card-col {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+}
+
 </style>
 @endsection
 
@@ -182,7 +193,7 @@
     <div class="container">
         <h2 class="menu-section-title">Menu Administrasi</h2>
         
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-5 justify-content-center">
             @php
                 $menus = [
                     ['icon'=>'bi-heart-fill','title'=>'Jenis Hewan','route'=>'admin.jenis-hewan.index', 'desc'=>'Kelola data jenis hewan seperti anjing, kucing, burung, dll'],
@@ -191,16 +202,19 @@
                     ['icon'=>'bi-file-medical-fill','title'=>'Kategori Klinis','route'=>'admin.kategori-klinis.index', 'desc'=>'Kelola kategori untuk keperluan klinis'],
                     ['icon'=>'bi-clipboard2-pulse-fill','title'=>'Kode Tindakan','route'=>'admin.kode-tindakan.index', 'desc'=>'Kelola kode tindakan terapi dan prosedur medis'],
                     ['icon'=>'bi-heart-pulse-fill','title'=>'Data Pet','route'=>'admin.pet.index', 'desc'=>'Kelola data hewan peliharaan pasien'],
-                    ['icon'=>'bi-people-fill','title'=>'Role & Hak Akses','route'=>'admin.role.index', 'desc'=>'Kelola role dan permission pengguna'],
-                    ['icon'=>'bi-people-fill','title'=>'User & Pengguna','route'=>'admin.user.index', 'desc'=>'Kelola akun pengguna dan assignment role'],
+                    ['icon'=>'bi-people-fill','title'=>'Role & Hak Akses','route'=>'admin.role.index', 'desc'=>'Kelola semua role yang ada di sistem'],
+                    ['icon'=>'bi-people-fill','title'=>'User & Pengguna','route'=>'admin.user.index', 'desc'=>'Kelola akun pengguna yang terdaftar'],
+                    ['icon'=>'bi-people-fill','title'=>'Manajemen Role','route'=>'admin.manajemen_role.index', 'desc'=>'Kelola role dan permission pengguna'],
                     ['icon'=>'bi-person-badge-fill','title'=>'Data Pemilik','route'=>'admin.pemilik.index', 'desc'=>'Kelola data pemilik hewan'],
                     ['icon'=>'bi-person-vcard-fill','title'=>'Data Dokter','route'=>'admin.dokter.index', 'desc'=>'Kelola data dokter hewan'],
                     ['icon'=>'bi-person-workspace','title'=>'Data Perawat','route'=>'admin.perawat.index', 'desc'=>'Kelola data perawat klinik'],
+                    ['icon'=>'bi-calendar-plus-fill','title'=>'Temu Dokter','route'=>'admin.temu-dokter.index', 'desc'=>'Atur dan daftarkan antrian pasien untuk konsultasi dokter hewan.'],
+                    ['icon'=>'bi-clipboard2-pulse-fill','title'=>'Rekam Medis','route'=>'admin.rekam-medis.index', 'desc'=>'Daftarkan data pemilik hewan baru agar dapat menggunakan layanan.'],
                 ];
             @endphp
 
             @foreach($menus as $m)
-            <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}">
+            <div class="col-md-6 col-lg-4 col-xl-3 five-card-col" data-aos="fade-up" data-aos-delay="{{ $loop->index * 200 }}">
                 <div class="card admin-menu-card">
                     <div class="card-body text-center">
                         <div class="icon-wrapper">

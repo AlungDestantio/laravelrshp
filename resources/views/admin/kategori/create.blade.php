@@ -7,11 +7,20 @@
 @endsection
 
 @section('content')
-<div class="container mt-5" style="max-width:700px;">
-    <h2 class="text-center fw-bold mb-4 text-primary">Tambah Kategori</h2>
 
+{{-- =================== HEADER =================== --}}
+<div class="page-header">
+    <div class="container">
+        <h1>Tambah Kategori</h1>
+        <p>Tambah data kategori kebutuhan layanan klinik.</p>
+    </div>
+</div>
+
+<div class="container">
+
+    {{-- ALERT VALIDASI --}}
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger text-start">
             <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -20,27 +29,38 @@
         </div>
     @endif
 
-    <div class="card shadow-sm">
+    <div class="card mb-5">
         <div class="card-body">
             <form action="{{ route('admin.kategori.store') }}" method="POST">
                 @csrf
+
                 <div class="mb-3">
                     <label for="nama_kategori" class="form-label fw-semibold">Nama Kategori</label>
-                    <input type="text" name="nama_kategori" id="nama_kategori" 
+                    <input type="text" 
+                           name="nama_kategori" 
+                           id="nama_kategori" 
                            class="form-control @error('nama_kategori') is-invalid @enderror"
                            placeholder="Masukkan nama kategori"
-                           value="{{ old('nama_kategori') }}" required>
+                           value="{{ old('nama_kategori') }}" 
+                           required>
                     @error('nama_kategori')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="{{ route('admin.kategori.index') }}" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-add px-4 me-2">
+                        <i class="bi bi-plus-circle me-1"></i> Simpan
+                    </button>
+
+                    <a href="{{ route('admin.kategori.index') }}" class="btn btn-secondary px-4">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Kembali
+                    </a>
                 </div>
+
             </form>
         </div>
     </div>
+
 </div>
 @endsection

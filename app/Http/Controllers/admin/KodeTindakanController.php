@@ -124,11 +124,14 @@ class KodeTindakanController extends Controller
 
     public function destroy($id)
     {
-        $item = KodeTindakanTerapi::findOrFail($id);
-        $item->delete();
+        $data = KodeTindakanTerapi::findOrFail($id);
 
-        return redirect()
-            ->route('admin.kode-tindakan.index')
-            ->with('success', 'Kode tindakan berhasil dihapus.');
+        $data->deleted_by = auth()->id();
+        $data->save();
+
+        $data->delete();
+
+        return redirect()->route('admin.kode-tindakan.index')
+            ->with('success', 'Kode Tindakan berhasil dihapus.');
     }
 }

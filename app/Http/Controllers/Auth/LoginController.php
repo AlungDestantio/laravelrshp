@@ -13,17 +13,7 @@ use App\Models\Role;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
+    
     use AuthenticatesUsers;
 
     /**
@@ -71,6 +61,12 @@ class LoginController extends Controller
         if (!$user) {
             return redirect()->back()
                 ->withErrors(['email' => 'Email tidak ditemukan atau akun tidak aktif.'])
+                ->withInput();
+        }
+
+        if ($user->roleUsers->count() === 0) {
+            return redirect()->back()
+                ->withErrors(['email' => 'Akun Anda tidak aktif, silakan hubungi admin.'])
                 ->withInput();
         }
 

@@ -13,45 +13,41 @@
     </div>
 </div>
 
+<div class="alert-container">
+    @if(session('success'))
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+</div>
+
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3" style="max-width:1100px;margin:auto;">
-        <h4 class="fw-bold mb-0">Daftar User</h4>
         <a href="{{ route('admin.user.create') }}" class="btn btn-add">
             <i class="bi bi-plus-circle"></i> Tambah User
         </a>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success text-center">{{ session('success') }}</div>
-    @endif
 
     <div class="card">
         <div class="table-responsive">
             <table class="table align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>ID</th>
+                        <th>NO</th>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Role</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($users as $u)
                     <tr>
-                        <td>{{ $u->iduser }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $u->nama }}</td>
                         <td>{{ $u->email }}</td>
                         <td>
-                            @forelse($u->roles as $role)
-                                <span class="badge bg-primary">{{ $role->nama_role }}</span>
-                            @empty
-                                <span class="badge bg-secondary">Belum ada</span>
-                            @endforelse
-                        </td>
-                        <td>
-                            <div class="d-flex gap-2">
+                            <div class="d-flex justify-content-center gap-2">
                                 <a href="{{ route('admin.user.edit', $u->iduser) }}" class="action-btn btn-edit">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>

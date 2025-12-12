@@ -2,9 +2,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dokter extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'dokter';
     protected $primaryKey = 'id_dokter';
     public $timestamps = false;
@@ -14,8 +17,11 @@ class Dokter extends Model
         'no_hp',
         'bidang_dokter',
         'jenis_kelamin',
-        'iduser'
+        'iduser',
+        'deleted_by',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function user()
     {

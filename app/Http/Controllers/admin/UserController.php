@@ -5,71 +5,39 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
     public function index()
     {
-        $users = User::with('roles')->orderBy('iduser')->get();
-        $roles = Role::all();
-        return view('admin.user.index', compact('users', 'roles'));
+        $users = User::orderBy('iduser')->get(); // Hanya ambil data user
+        return view('admin.user.index', compact('users'));
     }
+
 
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.user.create', compact('roles'));
+        return view('admin.user.create');
     }
+
 
     public function store(Request $request)
     {
         $validated = $this->validateUser($request);
-        $user = $this->createUser($validated);
-
-        if (!empty($validated['idrole'])) {
-            $user->roles()->attach($validated['idrole'], ['status' => 1]);
-        }
+        $this->createUser($validated);
 
         return redirect()->route('admin.user.index')
                          ->with('success', 'User berhasil ditambahkan.');
     }
 
-    private function validateUser(Request $request)
-    {
-        return $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:user,email,' . ($request->id ?? 'NULL') . ',iduser',
-            'password' => $request->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
-            'idrole' => 'nullable|exists:role,idrole'
-        ]);
-    }
-
-    private function createUser(array $data)
-    {
-        $data['nama'] = $this->formatNamaUser($data['nama']);
-        $data['password'] = Hash::make($data['password']);
-
-        return User::create([
-            'nama' => $data['nama'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'idrole' => $data['idrole'],
-        ]);
-    }
-
-    private function formatNamaUser($nama)
-    {
-        return ucwords(strtolower(trim($nama)));
-    }
-
     public function edit($id)
     {
-        $user = User::with('roles')->findOrFail($id);
-        $roles = Role::all();
-        return view('admin.user.edit', compact('user', 'roles'));
+        $user = User::findOrFail($id);
+        return view('admin.user.edit', compact('user'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -87,24 +55,46 @@ class UserController extends Controller
 
         $user->update($updateData);
 
-        // Sinkronisasi role
-        if (!empty($validated['idrole'])) {
-            $user->roles()->sync([$validated['idrole'] => ['status' => 1]]);
-        } else {
-            $user->roles()->detach();
-        }
-
         return redirect()->route('admin.user.index')
                          ->with('success', 'User berhasil diperbarui.');
     }
 
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        $user->roles()->detach();
+
+        $user->deleted_by = auth()->id();
+        $user->save();
+
         $user->delete();
 
         return redirect()->route('admin.user.index')
-                         ->with('success', 'User berhasil dihapus.');
+                         ->with('success', 'User berhasil dihapus!');
+    }
+
+    private function validateUser(Request $request)
+    {
+        return $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:user,email,' . ($request->id ?? 'NULL') . ',iduser',
+            'password' => $request->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
+        ]);
+    }
+
+
+    private function createUser(array $data)
+    {
+        return User::create([
+            'nama' => $this->formatNamaUser($data['nama']),
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+
+    private function formatNamaUser($nama)
+    {
+        return ucwords(strtolower(trim($nama)));
     }
 }
